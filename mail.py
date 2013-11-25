@@ -25,6 +25,9 @@ class PHPMailer(object):
         self.user_agent = user_agent
         self.attachments = []
 
+    def attach(self, f):
+        self.attachments.append(f)
+
     def stob64(self, s):
         return base64.b64encode(s.encode(self.charset))
 
