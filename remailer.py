@@ -23,7 +23,7 @@ def stob64(s, charset):
 def mime_encode(s, charset):
     return '=?%s?B?%s?=' % (charset, stob64(s, charset))
 
-class MailBomber(object):
+class ReMailer(object):
     def __init__(self, script_url, charset = 'UTF-8', client_headers = {}, **kwargs):
         self.script_url = script_url
         self.charset = charset
