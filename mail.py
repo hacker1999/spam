@@ -37,7 +37,7 @@ class PHPMailer(object):
         return s
 
     def send_mail(self, to_addr, subject, message, is_html = 0, headers = {}, **kwargs):
-        message_type = 'text/%s; charset=%s' % ('html' if is_html else 'plain', self.charset)
+        message_content_type = 'text/%s; charset=%s' % ('html' if is_html else 'plain', self.charset)
         message_encoded = chunk_split(self.stob64(message))
         if len(self.attachments):
             boundary = '--Boundary_' + uuid.uuid4().hex
@@ -47,7 +47,7 @@ class PHPMailer(object):
             # сообщение
             L.extend([
                 '--' + boundary,
-                'Content-Type: ' + message_type,
+                'Content-Type: ' + message_content_type,
                 'Content-Transfer-Encoding: base64',
                 '',
                 message_encoded
@@ -71,7 +71,7 @@ class PHPMailer(object):
             ])
             mail_body = '\r\n'.join(L)
         else:
-            headers['Content-Type'] = message_type
+            headers['Content-Type'] = message_content_type
             headers['Content-Transfer-Encoding'] = 'base64'
             mail_body = message_encoded
         headers = headers.items()
@@ -95,7 +95,8 @@ class PHPMailer(object):
         data = res.read()
         parts = res.info()['content-type'].split(';')
         if len(parts) > 1:
+            # http://www.w3.org/Protocols/rfc1341/4_Content-Type.html
             pair = parts[1].trim().split('=')
-            if (pair[0].lower() == 'charset'):
+            if pair[0].lower() == 'charset':
                 data = data.decode(pair[1])
         return json.loads(data)
