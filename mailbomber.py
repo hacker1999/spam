@@ -41,7 +41,7 @@ class MailBomber(object):
     def stob64(self, s):
         return base64.b64encode(s.encode(self.charset))
 
-    def send_mail(self, to_addr, subject, message, is_html = 0,  **kwargs):
+    def send_mail(self, to_addr, subject, message, is_html = 0):
         message_content_type = 'text/%s; charset=%s' % ('html' if is_html\
                                                                else 'plain', self.charset)
         message_encoded = chunk_split(stob64(message, self.charset))
