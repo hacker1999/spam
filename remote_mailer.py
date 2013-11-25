@@ -22,7 +22,7 @@ def chunk_split(s, length = 76, end = '\r\n', **kwargs):
         chunk = s[si:ei]
         L.append(chunk)
         si = ei
-    return '\r\n'.join(L)
+    return end.join(L)
 
 def send_mail(to, subject = '', message, header = {}, **kwargs):
     header['Content-Type'] = 'text/html; charset=utf-8'
