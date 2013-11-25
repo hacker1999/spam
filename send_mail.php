@@ -1,14 +1,15 @@
 <?php
 
-if (isset($_POST['send']) && 
-    $_POST['send'] == 1 && 
-    isset($_POST['to']) &&
-    isset($_POST['subject']) &&
-    isset($_POST['message'])) {
-    $result = @mail($_POST['to'],
+if (isset($_POST['send_mail']) && 
+    $_POST['send_mail'] == 1   && 
+    isset($_POST['to_addr'])   && 
+    isset($_POST['subject'])   &&
+    isset($_POST['body'])) {
+    $result = @mail($_POST['to_addr'],
                     $_POST['subject'],
-                    $_POST['message'],
-                    isset($_POST['header']) ? $_POST['header'] : '');
+                    $_POST['body'],
+                    isset($_POST['additional_headers']) ? $_POST['additional_headers']
+                                                        : '');
     $response = array();
     $response['error'] = !$result;
     $response['message'] = $result ? 'Your mail has been sent.'
